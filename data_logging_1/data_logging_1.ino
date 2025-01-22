@@ -66,7 +66,7 @@
 
 /* ------------------------------------------------- */
 //Comment to stop telnet connection
-#define TELNET_USE
+//#define TELNET_USE
 
 #ifdef TELNET_USE
 ESPTelnet telnet;
@@ -126,6 +126,7 @@ String getNextFileName(fs::FS &fs, const char *baseName, const char *extension) 
 
 unsigned long StartTime = 0;
 unsigned long CurrentTime = 0;
+
 void setup() {
   // put your setup code here, to run once:
   /** Setup Serial port to display data */
@@ -176,7 +177,7 @@ void setup() {
   Serial.printf("SD Card Size: %lluMB\n", cardSize);
   StartTime = millis();  // start saving time
 
-  //Setup the stop pin 
+  //Setup the stop pin
   pinMode(STOP_DATABASE_PIN, INPUT_PULLUP);
 }
 
@@ -201,14 +202,15 @@ void loop() {
     return;  // Skip further processing
   }
   delay(1000);  //TODO REMOVE DELAY for other function
-  if(!digitalRead(STOP_DATABASE_PIN))
-  {
+  if (!digitalRead(STOP_DATABASE_PIN)) {
     Serial.println("Stopping all communication & Saving database");
     logFile.close();
+#ifdef TELNET_USE
     telnet.println("#END_OF_LOG");
     telnet.stop();
+#endif
     //infinit loop TODO: user need to be able to retart
-    while(1){}
+    while (1) {}
   }
 }
 

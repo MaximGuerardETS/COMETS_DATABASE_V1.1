@@ -1,3 +1,4 @@
+#ifdef TELNET_USE
 
 bool isConnected() {
   return (WiFi.status() == WL_CONNECTED);
@@ -128,3 +129,4 @@ void telnet_init() {
     errorMsg("Error connecting to WiFi");
   }
 }
+#endif
