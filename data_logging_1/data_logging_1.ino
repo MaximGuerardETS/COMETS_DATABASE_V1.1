@@ -55,18 +55,18 @@
 #include "ESPTelnet.h"
 
 
-#define STOP_DATABASE_PIN 3
+#define STOP_DATABASE_PIN 36
 #define COMETS_FILE_VERSION 01
 
 /* ------------------------------------------------- */
 
 #define SERIAL_SPEED 115200
-#define WIFI_SSID "COMETS"
-#define WIFI_PASSWORD "MotoElec"
+#define WIFI_SSID "fedora"
+#define WIFI_PASSWORD "MaximLap"
 
 /* ------------------------------------------------- */
 //Comment to stop telnet connection
-//#define TELNET_USE
+// #define TELNET_USE
 
 #ifdef TELNET_USE
 ESPTelnet telnet;
@@ -126,7 +126,7 @@ String getNextFileName(fs::FS &fs, const char *baseName, const char *extension) 
 
 unsigned long StartTime = 0;
 unsigned long CurrentTime = 0;
-
+uint8_t temp = 0;
 void setup() {
   // put your setup code here, to run once:
   /** Setup Serial port to display data */
@@ -199,10 +199,10 @@ void loop() {
     CurrentTime = millis();
     Serial.println("UART Connection Error with VESC");
     save_data('e', 1, VESCUART_CONNECTION_ISSUE, CurrentTime - StartTime);
-    return;  // Skip further processing
   }
-  delay(1000);  //TODO REMOVE DELAY for other function
-  if (!digitalRead(STOP_DATABASE_PIN)) {
+  temp++;
+  Serial.println(temp,DEC);
+  if (temp == 200) {
     Serial.println("Stopping all communication & Saving database");
     logFile.close();
 #ifdef TELNET_USE
